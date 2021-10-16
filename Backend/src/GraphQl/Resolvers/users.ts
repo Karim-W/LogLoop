@@ -3,6 +3,7 @@ import { GraphQLContext } from './../../Contexts/GraphQLContext';
 import { Arg, Ctx, Query, Resolver,Int, Mutation} from "type-graphql";
 import "reflect-metadata"
 import { userResponse } from '../ObjectTypes/loginUserResponse';
+import { sign} from 'jsonwebtoken';
 
 
 @Resolver()
@@ -20,25 +21,26 @@ export class userResolver {
   ):Promise<user|null> {
       return ctx.em.findOne(user, {id:id});
   }
+    @Query(() => user, { nullable: true })
+    me(@Ctx() ctx: GraphQLContext) {
+        if (ctx.req.user.user === undefined) { return null; } else {
+            return ctx.em.findOne(user, { id: JSON.parse(ctx.req.user.user).id });
+        }
+    }
+    
   @Query(()=>userResponse,{nullable:true})
   async loginUser(
       @Arg("email",()=>String,{nullable:true}) email: string,
       @Arg("username",()=>String,{nullable:true}) username: string,
       @Arg("password",()=>String,) password: string,
       @Ctx() ctx: GraphQLContext
-  ):Promise<userResponse> {
-        if(email!==undefined){
-            const aUser = await ctx.em.findOne(user, {email:email.toLowerCase()});
-            if(aUser&&aUser.password===password){
-                return {user:aUser,code:200};
-            }else{
-                return {code:404};
-            }
-        }
-        else if(username!==undefined){
-            const aUser = await ctx.em.findOne(user, {id:1});
-            if(aUser&&aUser.password===password){
-                return {user:aUser,code:200};
+  ): Promise<userResponse> {
+      if(email!==undefined){
+          const aUser = await ctx.em.findOne(user, {email:email.toLowerCase()});
+          if (aUser && aUser.password === password) {
+              const accessToken = sign({ user: JSON.stringify( aUser) }, "test", { expiresIn: "1h" });
+              ctx.res.cookie("accessToken", accessToken, {expire: 3000});
+              return {user:aUser,code:200,token:accessToken};
             }else{
                 return {code:404};
             }
@@ -47,7 +49,7 @@ export class userResolver {
             return {code:405};
         }
         
-  }
+    }
   @Mutation(()=>user)
   createUser(
         @Arg("firstname") firstname: string,
@@ -106,4 +108,4 @@ export class userResolver {
       await ctx.em.persistAndFlush(newUser);
       return newUser;
   }
-}
+} 

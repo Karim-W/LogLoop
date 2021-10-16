@@ -6,5 +6,7 @@ export class userResponse{
     @Field(()=>user,{nullable:true})
     user?:user
     @Field(()=>Int)
-    code:number
+    code: number
+    @Field(() => String)
+    token?: string
 }

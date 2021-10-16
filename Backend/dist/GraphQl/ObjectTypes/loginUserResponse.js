@@ -23,6 +23,10 @@ __decorate([
     (0, type_graphql_1.Field)(() => type_graphql_1.Int),
     __metadata("design:type", Number)
 ], userResponse.prototype, "code", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => String),
+    __metadata("design:type", String)
+], userResponse.prototype, "token", void 0);
 userResponse = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], userResponse);

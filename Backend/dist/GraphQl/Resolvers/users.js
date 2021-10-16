@@ -17,6 +17,7 @@ const user_1 = require("./../../entities/user");
 const type_graphql_1 = require("type-graphql");
 require("reflect-metadata");
 const loginUserResponse_1 = require("../ObjectTypes/loginUserResponse");
+const jsonwebtoken_1 = require("jsonwebtoken");
 let userResolver = class userResolver {
     users(ctx) {
         return ctx.em.find(user_1.user, {});
@@ -24,20 +25,21 @@ let userResolver = class userResolver {
     findOnePost(id, ctx) {
         return ctx.em.findOne(user_1.user, { id: id });
     }
+    me(ctx) {
+        if (ctx.req.user.user === undefined) {
+            return null;
+        }
+        else {
+            return ctx.em.findOne(user_1.user, { id: JSON.parse(ctx.req.user.user).id });
+        }
+    }
     async loginUser(email, username, password, ctx) {
         if (email !== undefined) {
             const aUser = await ctx.em.findOne(user_1.user, { email: email.toLowerCase() });
             if (aUser && aUser.password === password) {
-                return { user: aUser, code: 200 };
-            }
-            else {
-                return { code: 404 };
-            }
-        }
-        else if (username !== undefined) {
-            const aUser = await ctx.em.findOne(user_1.user, { id: 1 });
-            if (aUser && aUser.password === password) {
-                return { user: aUser, code: 200 };
+                const accessToken = (0, jsonwebtoken_1.sign)({ user: JSON.stringify(aUser) }, "test", { expiresIn: "1h" });
+                ctx.res.cookie("accessToken", accessToken, { expire: 3000 });
+                return { user: aUser, code: 200, token: accessToken };
             }
             else {
                 return { code: 404 };
@@ -130,6 +132,13 @@ __decorate([
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], userResolver.prototype, "findOnePost", null);
+__decorate([
+    (0, type_graphql_1.Query)(() => user_1.user, { nullable: true }),
+    __param(0, (0, type_graphql_1.Ctx)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], userResolver.prototype, "me", null);
 __decorate([
     (0, type_graphql_1.Query)(() => loginUserResponse_1.userResponse, { nullable: true }),
     __param(0, (0, type_graphql_1.Arg)("email", () => String, { nullable: true })),

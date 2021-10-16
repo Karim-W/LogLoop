@@ -32,7 +32,7 @@ export default function NavBar() {
                 <DrawerOverlay />
                 <DrawerContent bg="gray.50">
                     <DrawerCloseButton />
-                    <DrawerHeader>Deary</DrawerHeader>
+                    <DrawerHeader>Log Loop</DrawerHeader>
 
                     <DrawerBody>
                         <Box p="2rem" borderRadius="2xl" boxShadow="2xl" mt="2rem" mb="9rem">
@@ -55,7 +55,7 @@ export default function NavBar() {
                     </DrawerBody>
 
                     <DrawerFooter>
-                        © 2021 Deary.com. All rights reserved.
+                        © 2021 LogLoop.com. All rights reserved.
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>

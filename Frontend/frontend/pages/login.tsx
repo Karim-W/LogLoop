@@ -21,7 +21,7 @@ export default function Login() {
     return (
         <Center>
             <Box boxShadow="2xl" w="25rem" height="-moz-max-content" p="2rem 4rem" mt="16rem" bgGradient="linear(to-l, #ECEBE9, #F6F5F4)" borderRadius="20px" >
-                <Text fontSize="2xl" textAlign="center" mb="3rem" color="black.500" isTruncated style={{ fontWeight: "bold" }}>Deary</Text>
+                <Text fontSize="2xl" textAlign="center" mb="3rem" color="black.500" isTruncated style={{ fontWeight: "bold" }}>Log Loop</Text>
 
                 <form >
                     <VStack spacing={"1rem"}>
