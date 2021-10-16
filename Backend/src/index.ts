@@ -20,13 +20,12 @@ const main = async () => {
         context: ({ req,res}) => ({ em: orm.em, req:  req ,res: res })
     });
     app.use(cookieParser());
-    app.use((req, res, next) => {
+    app.use((req,_, next) => {
         try {
             const accessToken = req.cookies.accessToken;
             const data = verify(accessToken, "test") as any;
             (req as any).user = data;
         } catch (err) {
-            console.log(err);
         }
         next();
     })

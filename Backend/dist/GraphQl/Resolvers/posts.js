@@ -35,6 +35,30 @@ let PostResolver = class PostResolver {
         await ctx.em.persistAndFlush(post);
         return post;
     }
+    async myposts(ctx) {
+        console.log(ctx.req.user);
+        if (!ctx.req.user.user) {
+            return null;
+        }
+        const userId = JSON.parse(ctx.req.user.user).id;
+        return ctx.em.find(post_1.Post, { user: userId });
+    }
+    async newPost(title, content, ctx) {
+        if (!ctx.req.user.user) {
+            return null;
+        }
+        console.log("heyo");
+        const userId = JSON.parse(ctx.req.user.user).id;
+        const aUser = await ctx.em.findOne(user_1.user, { id: userId });
+        if (aUser === null)
+            return null;
+        const post = new post_1.Post();
+        post.user = aUser;
+        post.title = title;
+        post.content = content;
+        await ctx.em.persistAndFlush(post);
+        return post;
+    }
     async updatePost(id, title, content, ctx) {
         let post = await ctx.em.findOne(post_1.Post, { id: id });
         console.log(`title:${title}`);
@@ -82,6 +106,22 @@ __decorate([
     __metadata("design:paramtypes", [Number, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "createPost", null);
+__decorate([
+    (0, type_graphql_1.Query)(() => [post_1.Post], { nullable: true }),
+    __param(0, (0, type_graphql_1.Ctx)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PostResolver.prototype, "myposts", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => post_1.Post, { nullable: true }),
+    __param(0, (0, type_graphql_1.Arg)("title", () => String, { nullable: true })),
+    __param(1, (0, type_graphql_1.Arg)("content", () => String, { nullable: true })),
+    __param(2, (0, type_graphql_1.Ctx)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, Object]),
+    __metadata("design:returntype", Promise)
+], PostResolver.prototype, "newPost", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => post_1.Post, { nullable: true }),
     __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),

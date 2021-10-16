@@ -23,14 +23,13 @@ const main = async () => {
         context: ({ req, res }) => ({ em: orm.em, req: req, res: res })
     });
     app.use((0, cookie_parser_1.default)());
-    app.use((req, res, next) => {
+    app.use((req, _, next) => {
         try {
             const accessToken = req.cookies.accessToken;
             const data = (0, jsonwebtoken_1.verify)(accessToken, "test");
             req.user = data;
         }
         catch (err) {
-            console.log(err);
         }
         next();
     });

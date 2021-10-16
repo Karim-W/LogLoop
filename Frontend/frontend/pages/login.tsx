@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { loginUserbyEmail } from "../components/GraphQL/userModel";
 import { useRouter } from "next/router";
 import { useApolloClient } from "@apollo/client";
+import { userResponse } from "../components/GraphQL/classes/userResponse";
 
 
 export default function Login() {
@@ -14,7 +15,7 @@ export default function Login() {
         const data = await loginUserbyEmail(identifier, password);
         console.log(data);
         if (data.code === 200) {
-            router.push("/Home");
+            router.push({ pathname: "/home", query: { data: JSON.stringify(data) } });
         }
         console.log("Submitted");
     }

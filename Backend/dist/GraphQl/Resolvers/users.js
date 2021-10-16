@@ -33,11 +33,13 @@ let userResolver = class userResolver {
             return ctx.em.findOne(user_1.user, { id: JSON.parse(ctx.req.user.user).id });
         }
     }
-    async loginUser(email, username, password, ctx) {
+    async loginUser(email, password, ctx) {
         if (email !== undefined) {
             const aUser = await ctx.em.findOne(user_1.user, { email: email.toLowerCase() });
             if (aUser && aUser.password === password) {
-                const accessToken = (0, jsonwebtoken_1.sign)({ user: JSON.stringify(aUser) }, "test", { expiresIn: "1h" });
+                const accessToken = (0, jsonwebtoken_1.sign)({ user: JSON.stringify(aUser) }, "test", {
+                    expiresIn: "1h",
+                });
                 ctx.res.cookie("accessToken", accessToken, { expire: 3000 });
                 return { user: aUser, code: 200, token: accessToken };
             }
@@ -75,7 +77,9 @@ let userResolver = class userResolver {
             }
         }
         else if (username !== undefined) {
-            const aUser = await ctx.em.findOne(user_1.user, { userName: username.toLowerCase() });
+            const aUser = await ctx.em.findOne(user_1.user, {
+                userName: username.toLowerCase(),
+            });
             if (aUser) {
                 newUser = aUser;
             }
@@ -142,11 +146,10 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Query)(() => loginUserResponse_1.userResponse, { nullable: true }),
     __param(0, (0, type_graphql_1.Arg)("email", () => String, { nullable: true })),
-    __param(1, (0, type_graphql_1.Arg)("username", () => String, { nullable: true })),
-    __param(2, (0, type_graphql_1.Arg)("password", () => String)),
-    __param(3, (0, type_graphql_1.Ctx)()),
+    __param(1, (0, type_graphql_1.Arg)("password", () => String)),
+    __param(2, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, Object]),
+    __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", Promise)
 ], userResolver.prototype, "loginUser", null);
 __decorate([
