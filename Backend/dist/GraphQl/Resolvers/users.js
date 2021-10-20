@@ -26,11 +26,16 @@ let userResolver = class userResolver {
         return ctx.em.findOne(user_1.user, { id: id });
     }
     me(ctx) {
-        if (ctx.req.user.user === undefined) {
+        var theToken = ctx.req.rawHeaders.find((x) => x.includes("AccessToken:"));
+        if (theToken === undefined) {
+            console.log("no token");
             return null;
         }
         else {
-            return ctx.em.findOne(user_1.user, { id: JSON.parse(ctx.req.user.user).id });
+            const Conv = theToken.split("AccessToken:")[1];
+            const decoded = (0, jsonwebtoken_1.verify)(Conv, "test");
+            const aUser = JSON.parse(decoded.user);
+            return ctx.em.findOne(user_1.user, { id: aUser.id });
         }
     }
     async loginUser(email, password, ctx) {

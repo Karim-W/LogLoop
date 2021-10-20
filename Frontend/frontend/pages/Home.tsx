@@ -5,10 +5,16 @@ import {
     Button
 } from "@chakra-ui/react"
 import { getMyPosts } from "../components/GraphQL/postModel";
+import { GetServerSideProps } from "next";
+import { setContext } from "@apollo/client/link/context";
+import { ApolloClient, createHttpLink, gql, InMemoryCache } from "@apollo/client";
+import GQLClient from "../components/GraphQL/Client";
 interface props {
     posts: any;
 }
 export default function Home({ posts }: props) {
+    // const [userPosts, setPost] = React.useState('');
+
     return (
         <Flex direction="column">
             <Flex direction="row" justify="space-between" p="1rem">
@@ -29,12 +35,16 @@ export default function Home({ posts }: props) {
         </Flex>
     );
 }
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
-export async function getStaticProps(params: any) {
-    console.log(params);
-    return {
-        props: {
-            posts: null
-        }
-    };
+
+    return { props: {} }
 }
+// export async function getStaticProps(params: any) {
+//     console.log(params);
+//     return {
+//         props: {
+//             posts: null
+//         }
+//     };
+// }

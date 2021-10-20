@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext, useMemo } from "react";
 import { Center, Text, Box, Input, VStack, Button, Square, Circle } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
-import { loginUserbyEmail } from "../components/GraphQL/userModel";
+import { loginUserbyEmail, fetchLoginUser } from "../components/GraphQL/userModel";
 import { useRouter } from "next/router";
 import { useApolloClient } from "@apollo/client";
 import { userResponse } from "../components/GraphQL/classes/userResponse";
-
+import Cookie from "js-cookie";
 
 export default function Login() {
     const [identifier, setidentifier] = React.useState("");
@@ -13,9 +13,9 @@ export default function Login() {
     const router = useRouter();
     async function handleSubmit() {
         const data = await loginUserbyEmail(identifier, password);
-        console.log(data);
         if (data.code === 200) {
-            router.push({ pathname: "/home", query: { data: JSON.stringify(data) } });
+            Cookie.set("accessToken", data.token.toString());
+            router.push("/Home");
         }
         console.log("Submitted");
     }

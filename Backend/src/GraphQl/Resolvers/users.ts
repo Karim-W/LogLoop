@@ -3,7 +3,7 @@ import { GraphQLContext } from "./../../Contexts/GraphQLContext";
 import { Arg, Ctx, Query, Resolver, Int, Mutation } from "type-graphql";
 import "reflect-metadata";
 import { userResponse } from "../ObjectTypes/loginUserResponse";
-import { sign } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 
 @Resolver()
 export class userResolver {
@@ -20,10 +20,17 @@ export class userResolver {
   }
   @Query(() => user, { nullable: true })
   me(@Ctx() ctx: GraphQLContext) {
-    if (ctx.req.user.user === undefined) {
+    var theToken = ctx.req.rawHeaders.find((x: any) =>
+      x.includes("AccessToken:")
+    ) as string;
+    if (theToken === undefined) {
+      console.log("no token");
       return null;
     } else {
-      return ctx.em.findOne(user, { id: JSON.parse(ctx.req.user.user).id });
+      const Conv = theToken.split("AccessToken:")[1];
+      const decoded = verify(Conv, "test") as any;
+      const aUser = JSON.parse(decoded.user);
+      return ctx.em.findOne(user, { id: aUser.id });
     }
   }
 
