@@ -25,6 +25,9 @@ namespace LogLoop.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
@@ -37,12 +40,9 @@ namespace LogLoop.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Post");
                 });
@@ -53,17 +53,29 @@ namespace LogLoop.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("LastLogin")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("LastName")
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
                         .HasColumnType("text");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("imageUrl")
                         .HasColumnType("text");
@@ -81,16 +93,18 @@ namespace LogLoop.Migrations
 
             modelBuilder.Entity("LogLoop.Common.Models.PostEntity", b =>
                 {
-                    b.HasOne("LogLoop.Common.Models.UserEntity", "User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                    b.HasOne("LogLoop.Common.Models.UserEntity", "Author")
+                        .WithMany("Logs")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("LogLoop.Common.Models.UserEntity", b =>
                 {
-                    b.Navigation("Posts");
+                    b.Navigation("Logs");
                 });
 #pragma warning restore 612, 618
         }

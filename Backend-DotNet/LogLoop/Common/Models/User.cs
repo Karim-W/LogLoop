@@ -17,6 +17,12 @@ namespace LogLoop.Common.Models
         public string Password { get; set; }
         public string phone { get; set; }
         public string imageUrl { get; set; }
-        public List<PostEntity> Posts { get; set; }
+        public ICollection<PostEntity> Logs { get; set; }
+        public string Token { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public DateTime LastLogin { get; set; }
+
     }
+
 }

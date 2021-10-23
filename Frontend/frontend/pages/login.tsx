@@ -5,6 +5,9 @@ import { loginUserbyEmail } from "../components/GraphQL/userModel";
 import { useRouter } from "next/router";
 import { useApolloClient } from "@apollo/client";
 import { userResponse } from "../components/GraphQL/classes/userResponse";
+import { LoginUser } from "../components/ApiUtls/UserManagment";
+import axios from "axios";
+// import cookie from "js-cookie";
 
 
 export default function Login() {
@@ -12,10 +15,10 @@ export default function Login() {
     const [password, setPassword] = React.useState("");
     const router = useRouter();
     async function handleSubmit() {
-        const data = await loginUserbyEmail(identifier, password);
-        console.log(data);
-        if (data.code === 200) {
-            router.push({ pathname: "/home", query: { data: JSON.stringify(data) } });
+        const response = await LoginUser(identifier, password);
+        if (response.status === 200) {
+            localStorage.setItem("AccessToken", JSON.stringify(response.data));
+            router.push("/Home");
         }
         console.log("Submitted");
     }

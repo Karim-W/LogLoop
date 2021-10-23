@@ -14,7 +14,8 @@ namespace LogLoop.Common.Models
         public string Content { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public UserEntity User { get; set; }
+        public Guid AuthorId { get; set; }
+        public UserEntity Author { get; set; }
 
     }
 }

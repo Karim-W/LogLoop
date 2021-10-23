@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Code\\Projects\\LogLoop\\Backend-DotNet\\LogLoop\\LogLoop.csproj": {}
+    "/Users/karim/Documents/Code/FullStack/Deary/Backend-DotNet/LogLoop/LogLoop.csproj": {}
   },
   "projects": {
-    "D:\\Code\\Projects\\LogLoop\\Backend-DotNet\\LogLoop\\LogLoop.csproj": {
+    "/Users/karim/Documents/Code/FullStack/Deary/Backend-DotNet/LogLoop/LogLoop.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Code\\Projects\\LogLoop\\Backend-DotNet\\LogLoop\\LogLoop.csproj",
+        "projectUniqueName": "/Users/karim/Documents/Code/FullStack/Deary/Backend-DotNet/LogLoop/LogLoop.csproj",
         "projectName": "LogLoop",
-        "projectPath": "D:\\Code\\Projects\\LogLoop\\Backend-DotNet\\LogLoop\\LogLoop.csproj",
-        "packagesPath": "C:\\Users\\karim\\.nuget\\packages\\",
-        "outputPath": "D:\\Code\\Projects\\LogLoop\\Backend-DotNet\\LogLoop\\obj\\",
+        "projectPath": "/Users/karim/Documents/Code/FullStack/Deary/Backend-DotNet/LogLoop/LogLoop.csproj",
+        "packagesPath": "/Users/karim/.nuget/packages/",
+        "outputPath": "/Users/karim/Documents/Code/FullStack/Deary/Backend-DotNet/LogLoop/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\karim\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/karim/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,6 +38,10 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.2, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -62,9 +60,17 @@
               "target": "Package",
               "version": "[1.10.14, )"
             },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[5.0.10, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.13.1, )"
             }
           },
           "imports": [
@@ -85,7 +91,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.400/RuntimeIdentifierGraph.json"
         }
       }
     }

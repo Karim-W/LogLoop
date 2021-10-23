@@ -35,6 +35,7 @@ namespace LogLoop
             services.AddDbContext<AppDbContext>(options => options.UseNpgsql("Host=localhost;Database=dotnetdb;Username=postgres;Password=secret"));
 
             services.AddControllers();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
