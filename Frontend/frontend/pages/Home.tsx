@@ -89,7 +89,7 @@ export default function Home() {
                 </Flex>
 
                 <Center>
-                    <SimpleGrid columns={4} spacing={"2rem"} m="2rem" >
+                    <SimpleGrid columns={3} spacing={"2rem"} m="2rem" >
                         {postList !== [] ? postList.map((p, idx) => {
                             return (<PostComponent reloader={loadInPosts} key={idx} post={p} width={postWidth} />)
                         }) : <Text>No Posts</Text>}

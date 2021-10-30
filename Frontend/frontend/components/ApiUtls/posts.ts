@@ -64,13 +64,16 @@ export async function AddMyPosts(tit: string, cont: string): Promise<any> {
 }
 
 export async function GetPostById(id: string): Promise<any> {
-  const options = {
+  var config = {
     method: "GET",
     url: `https://localhost:5001/api/Post/${id}`,
+    headers: {
+      "Content-Type": "application/json",
+      // Authorization: localStorage.getItem("AccessToken"),
+    },
   } as any;
-
-  const res = axios.request(options);
-  return res;
+  const res = await axios(config);
+  return res.data;
 }
 export async function GetPostsIds(): Promise<any> {
   const options = {
@@ -80,4 +83,26 @@ export async function GetPostsIds(): Promise<any> {
 
   const res = axios.request(options);
   return res;
+}
+
+export async function updatePost(
+  id: string,
+  heading: string,
+  text: string
+): Promise<any> {
+  var data = JSON.stringify({
+    title: heading,
+    content: text,
+  });
+  var config = {
+    method: "Patch",
+    url: `https://localhost:5001/api/Post/${id}`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("AccessToken"),
+    },
+    data: data,
+  } as any;
+  const res = await axios(config);
+  return res.data;
 }

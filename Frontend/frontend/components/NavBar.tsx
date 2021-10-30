@@ -12,6 +12,7 @@ import {
     DrawerCloseButton,
     useDisclosure,
 } from "@chakra-ui/react"
+import Link from "next/link";
 
 
 // interface NavBarProps {
@@ -64,7 +65,7 @@ export default function NavBar() {
                     <Button bg="transparent" onClick={onOpen}>
                         <HamburgerIcon w={6} h={6} />
                     </Button>
-                    <Heading as="h4" size="lg" fontWeight="bold">Home</Heading>
+                    <Link href="/Home"><Heading as="h4" size="lg" fontWeight="bold">Home</Heading></Link>
                     <Flex row alignItems="center">
                         <Text size="1xl">Hi Karim</Text>
                         <Spacer w={4} />

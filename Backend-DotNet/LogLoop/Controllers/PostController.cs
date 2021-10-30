@@ -52,6 +52,16 @@ namespace LogLoop.Controllers
             var pages = posts / pageSize;
             return Ok(pages + 1);
         }
+        [HttpGet("/api/MyPosts")]
+        public IActionResult GetMeMyPosts(int page = 0, int pageSize = 10)
+        {
+            this.HttpContext.Request.Headers.TryGetValue("Authorization", out var token);
+            var theUser = JsonConvert.DeserializeObject<UserEntity>(Auth.Decrypt(token));
+            // var theUser = context.Users.FirstOrDefault(u => u.Id == userId);
+            var posts = context.Posts.Where(p => p.Author == theUser).OrderByDescending(p => p.CreatedAt).Skip((page) * pageSize).Take(pageSize).Select(page => new { page.Id, page.Title, page.Content, page.CreatedAt, page.UpdatedAt }).ToList();
+            // return Ok(posts);
+            return Ok(posts);
+        }
         [HttpGet("/api/Post/{id}")]
         public IActionResult GetPost(Guid id)
         {
@@ -139,6 +149,30 @@ namespace LogLoop.Controllers
                 return Unauthorized();
             }
             context.Posts.Remove(post);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+        #endregion
+        ////////////////////////////////////PATCH/////////////////////////
+        #region Patches
+        [HttpPatch("/api/Post/{id}")]
+        public async Task<ActionResult<PostEntity>> PatchPost(Guid id, [FromBody] PostEntity post)
+        {
+            this.HttpContext.Request.Headers.TryGetValue("Authorization", out var token);
+            var theUser = JsonConvert.DeserializeObject<UserEntity>(Auth.Decrypt(token));
+            var thePost = context.Posts.FirstOrDefault(p => p.Id == id);
+            if (thePost == null || theUser == null)
+            {
+                return NotFound();
+            }
+            if (thePost.AuthorId != theUser.Id)
+            {
+                return Unauthorized();
+            }
+            thePost.Title = post.Title;
+            thePost.Content = post.Content;
+            thePost.UpdatedAt = DateTime.Now;
+            context.Update(thePost);
             await context.SaveChangesAsync();
             return Ok();
         }
